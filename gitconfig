@@ -17,7 +17,7 @@
 	defaultBranch = main
 [credential "https://github.com"]
 	helper = 
-	helper = !/etc/profiles/per-user/brian/bin/gh auth git-credential
+	helper = !/home/brian/.nix-profile/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/etc/profiles/per-user/brian/bin/gh auth git-credential
+	helper = !/home/brian/.nix-profile/bin/gh auth git-credential
