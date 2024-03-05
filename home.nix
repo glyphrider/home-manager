@@ -56,6 +56,7 @@
     ".config/hypr/hyprland.conf".source = ./hyprland.conf;
     ".config/hypr/waybar-config.jsonc".source = ./waybar-config.jsonc;
     ".config/hypr/waybar-style.css".source = ./waybar-style.css;
+    ".config/kitty/kitty.conf".source = ./kitty.conf;
     ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
