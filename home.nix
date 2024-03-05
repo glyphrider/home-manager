@@ -12,14 +12,40 @@
 
   # home.allowUnfree = true;
   home.packages = with pkgs; [
-    gh
-    git
-    hyprland
-    swaylock-effects
-    waybar
-    tmux
+    bitwarden
+    brave
+    cmatrix
+    cmus
+    cowsay
+    dunst
+    elixir
+    emacs
+    erlang
+    firefox
+    fortune
+    fzf
+    gh # github cli
+    htop
+    kitty
+    lollypop
+    neofetch
     neovim
-    wofi
+    newsboat
+    obs-studio
+    pavucontrol # pipewire -> pulseaudio
+    rebar3 # build tool for erlang; needed for erlang-ls in neovim
+    rustup # used to install a version of rust
+    signify # verify package signatures, like for GrapheneOS
+    swaylock-effects # a tired ol' version of swaylock, but it works
+    swww # wallpaper management for Wayland/Hyprland
+    tmux
+    tor
+    unzip # needed for the elixir-ls in neovim
+    waybar # my bar of choice for Hyprland
+    wineWowPackages.stable # both 64-bit and 32-bit wine(s)
+    wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
+    # wlogout # a good idea, if we ever decide to use a desktop manager (e.g. sddm, gdm)
+    wofi # Wayland graphical launcher (like rofi, but Waylandified)
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
