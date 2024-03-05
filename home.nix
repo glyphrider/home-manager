@@ -12,6 +12,8 @@
 
   # home.allowUnfree = true;
   home.packages = with pkgs; [
+    gh
+    git
     hyprland
     swaylock-effects
     waybar
@@ -31,6 +33,7 @@
     ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
+    ".gitconfig".source = ./gitconfig;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = '' org.gradle.console=verbose org.gradle.daemon.idletimeout=3600000

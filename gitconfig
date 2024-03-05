@@ -1,0 +1,23 @@
+[user]
+	email = glyphrider@gmail.com
+	name = Brian H. Ward
+	signingkey = A1268F7E5E7EBFDF
+
+[commit]
+	gpgsign = true
+
+[alias]
+	lol = log --pretty=oneline --abbrev-commit --graph --decorate
+	los = log --show-signature
+
+[pull]
+	rebase = false
+
+[init]
+	defaultBranch = main
+[credential "https://github.com"]
+	helper = 
+	helper = !/etc/profiles/per-user/brian/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/etc/profiles/per-user/brian/bin/gh auth git-credential
