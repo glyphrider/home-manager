@@ -45,6 +45,7 @@
     steam
     swaylock-effects # a tired ol' version of swaylock, but it works
     swww # wallpaper management for Wayland/Hyprland
+    tela-circle-icon-theme 
     tmux
     tor
     unzip # needed for the elixir-ls in neovim
@@ -69,12 +70,62 @@
     ".config/wofi/style.css".source = ./wofi-style.css;
     ".gitconfig".source = ./gitconfig;
 
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = '' org.gradle.console=verbose org.gradle.daemon.idletimeout=3600000
-    # '';
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.6
-      font_family NotoMono Nerd Font Mono
+      font_family FiraCode Nerd Font
+      '';
+    ".config/dunst/dunstrc".text = ''
+      [global]
+        frame_width = 1
+        frame_color = "#ffffff"
+        font = Arimo Nerd Font Propo 10;
+        markup = yes
+        format = "<big><b>%s</b></big> %p\n%b"
+        sort = yes
+        indicate_hidden = yes
+        alignment = left
+        show_age_threshold = 60
+        word_wrap = no
+        ignore_newline = no
+        height = 256
+        width = (256, 384)
+        offset = 32x32
+        shrink = yes
+        transparency = 15
+        corner_radius = 7
+        idle_threshold = 120
+        monitor = 0
+        follow = keyboard
+        sticky_history = yes
+        history_length = 20
+        show_indicators = yes
+        line_height = 0
+        separator_height = 1
+        separator_color = "#000000"
+        padding = 8
+        horizontal_padding = 10
+        separator_color = #263238
+        icon_position = left
+        icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/"
+        max_icon_size = 128
+      
+      [urgency_low]
+        background = "#808080"
+        foreground = "#404040"
+        timeout = 15
+        icon = bell
+      
+      [urgency_normal]
+        background = "#c0c0c0"
+        foreground = "#404040"
+        timeout = 15
+        icon = bell
+      
+      [urgency_critical]
+        background = "#ff0000"
+        foreground = "#ffffff"
+        timeout = 0
+        icon = mail-mark-junk
       '';
   };
 
@@ -113,7 +164,6 @@
 
   home.sessionVariables = {
     EDITOR = "vim";
-    # EDITOR = "emacs";
   };
 
   programs.home-manager.enable = true;
