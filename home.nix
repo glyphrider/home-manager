@@ -64,7 +64,6 @@
     ".config/hypr/hyprland.conf".source = ./hyprland.conf;
     ".config/hypr/waybar-config.jsonc".source = ./waybar-config.jsonc;
     ".config/hypr/waybar-style.css".source = ./waybar-style.css;
-    ".config/kitty/kitty.conf".source = ./kitty.conf;
     ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
@@ -73,6 +72,10 @@
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = '' org.gradle.console=verbose org.gradle.daemon.idletimeout=3600000
     # '';
+    ".config/kitty/kitty.conf".text = ''
+      background_opacity 0.6
+      font_family NotoMono Nerd Font Mono
+      '';
   };
 
   home.activation.tpm = ''
