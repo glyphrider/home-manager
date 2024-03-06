@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "brian";
@@ -17,6 +19,7 @@
     cmatrix
     cmus
     cowsay
+    discord
     dunst
     elixir
     emacs
@@ -25,9 +28,11 @@
     fortune
     fzf
     gh # github cli
+    google-chrome
     htop
     kitty
     lollypop
+    lutris
     neofetch
     neovim
     newsboat
@@ -36,11 +41,13 @@
     rebar3 # build tool for erlang; needed for erlang-ls in neovim
     rustup # used to install a version of rust
     signify # verify package signatures, like for GrapheneOS
+    steam
     swaylock-effects # a tired ol' version of swaylock, but it works
     swww # wallpaper management for Wayland/Hyprland
     tmux
     tor
     unzip # needed for the elixir-ls in neovim
+    vivaldi
     waybar # my bar of choice for Hyprland
     wineWowPackages.stable # both 64-bit and 32-bit wine(s)
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
