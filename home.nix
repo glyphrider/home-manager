@@ -28,6 +28,7 @@
     fortune
     fzf
     gh # github cli
+    gnome3.adwaita-icon-theme
     google-chrome
     htop
     kitty
