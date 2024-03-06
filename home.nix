@@ -55,6 +55,7 @@
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
     # wlogout # a good idea, if we ever decide to use a desktop manager (e.g. sddm, gdm)
     wofi # Wayland graphical launcher (like rofi, but Waylandified)
+    xdg-user-dirs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
