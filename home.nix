@@ -77,7 +77,7 @@
     ".config/dunst/dunstrc".text = ''
       [global]
         frame_width = 1
-        frame_color = "#ffffff"
+        frame_color = "#000000"
         font = Arimo Nerd Font Propo 10;
         markup = yes
         format = "<big><b>%s</b></big> %p\n%b"
@@ -88,9 +88,9 @@
         word_wrap = no
         ignore_newline = no
         height = 256
-        width = (256, 384)
+        width = (384, 512)
         offset = 32x32
-        shrink = yes
+        shrink = no
         transparency = 15
         corner_radius = 7
         idle_threshold = 120
@@ -100,32 +100,30 @@
         history_length = 20
         show_indicators = yes
         line_height = 0
-        separator_height = 1
-        separator_color = "#000000"
         padding = 8
         horizontal_padding = 10
-        separator_color = #263238
         icon_position = left
-        icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/"
+        icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/:${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/panel/:"
         max_icon_size = 128
       
       [urgency_low]
-        background = "#808080"
-        foreground = "#404040"
+        background = "#000000"
+        foreground = "#808080"
         timeout = 15
-        icon = bell
+        # icon = bell
       
       [urgency_normal]
-        background = "#c0c0c0"
-        foreground = "#404040"
+        background = "#141003"
+        foreground = "#e1c564"
         timeout = 15
         icon = bell
       
       [urgency_critical]
-        background = "#ff0000"
-        foreground = "#ffffff"
+        frame_color = "#ff0000"
+        background = "#fff8dc"
+        foreground = "#ff0000"
         timeout = 0
-        icon = mail-mark-junk
+        icon = firewall-applet-panic
       '';
   };
 
