@@ -27,7 +27,7 @@
     };
     plugins = [
       { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
-      { name = "fzf-tab"; src = pkgs.zsh-fzf-tab; }
+      { name = "fzf-tab"; src = pkgs.zsh-fzf-tab; file = "share/fzf-tab/fzf-tab.zsh.theme"; }
     ];
     initExtra = ''
       source ~/.p10k.zsh
