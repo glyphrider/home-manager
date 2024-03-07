@@ -106,9 +106,7 @@
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.6
       font_family FiraCode Nerd Font
-      '';
-    ".config/kitty/default_session.conf".text = ''
-      launch --env SHELL=${pkgs.zsh}/bin/zsh zsh
+      shell ${pkgs.zsh}/bin/zsh
       '';
     ".config/dunst/dunstrc".text = ''
       [global]
