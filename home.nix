@@ -10,6 +10,13 @@
 
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      h = "dbus-launch --exit-with-session Hyprland";
+    };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -18,7 +25,6 @@
     shellAliases = {
       ls = "${pkgs.eza}/bin/eza -aF --icons --color=auto --group-directories-first --git";
       ll = "${pkgs.eza}/bin/eza -alF --icons --color=auto --group-directories-first --git";
-      h = "dbus-launch --exit-with-session Hyprland";
     };
     history.size = 10000;
     oh-my-zsh = {
