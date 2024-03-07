@@ -10,7 +10,34 @@
 
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableAutosuggestions = true;
+    syntaxHighlighting.enable = true;
+    shellAliases = {
+      ls = "${pkgs.eza}/bin/eza -aF --icons --color=auto --group-directories-first --git";
+      ll = "${pkgs.eza}/bin/eza -alF --icons --color=auto --group-directories-first --git";
+      h = "dbus-launch --exit-with-session Hyprland";
+    };
+    history.size = 10000;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "gh" ];
+    };
+    plugins = [
+      { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
+      { name = "fzf-tab"; src = pkgs.zsh-fzf-tab; }
+    ];
+    initExtra = ''
+      source ~/.p10k.zsh
+      '';
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   # home.allowUnfree = true;
   home.packages = with pkgs; [
@@ -24,9 +51,9 @@
     elixir
     emacs
     erlang
+    eza
     firefox
     fortune
-    fzf
     gh # github cli
     gnome3.adwaita-icon-theme
     google-chrome
@@ -56,12 +83,14 @@
     # wlogout # a good idea, if we ever decide to use a desktop manager (e.g. sddm, gdm)
     wofi # Wayland graphical launcher (like rofi, but Waylandified)
     xdg-user-dirs
+    zsh-fzf-tab
+    zsh-completions
+    zsh-powerlevel10k
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
   home.file = {
     ".config/tmux/tmux.conf".source = ./tmux.conf;
-    ".zshrc".source = ./zshrc;
     ".emacs".source = ./emacs;
     ".config/hypr/hyprland.conf".source = ./hyprland.conf;
     ".config/hypr/waybar-config.jsonc".source = ./waybar-config.jsonc;
@@ -86,7 +115,7 @@
         indicate_hidden = yes
         alignment = left
         show_age_threshold = 60
-        word_wrap = no
+        word_wrap $= no
         ignore_newline = no
         height = 256
         width = (384, 512)
@@ -126,6 +155,7 @@
         timeout = 0
         icon = firewall-applet-panic
       '';
+    
   };
 
   home.activation.tpm = ''
