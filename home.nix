@@ -140,7 +140,6 @@
         background = "#000000"
         foreground = "#808080"
         timeout = 15
-        # icon = bell
       
       [urgency_normal]
         background = "#141003"
@@ -160,6 +159,7 @@
 
   home.activation.tpm = ''
     if [ ! -d ~/.tmux/plugins/tpm ]; then
+      echo '> installing tmux plugin manager (via git)'
       "${pkgs.git}/bin/git" clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     else
       echo '> tmux plugin manager already installed'
@@ -167,6 +167,7 @@
     '';
   home.activation.asdf = ''
     if [ ! -d ~/.asdf ]; then
+      echo '> installing asdf version manager (via git)'
       "${pkgs.git}/bin/git" clone https://github.com/asdf-vm/asdf.git ~/.asdf
     else
       echo '> asdf version manager already installed'
@@ -174,6 +175,7 @@
     '';
   home.activation.ssh = ''
     if [ ! -d ~/.ssh ]; then
+      echo '> creating an ssh directory'
       mkdir ~/.ssh
     else
       echo '> user ssh directory already created'
@@ -182,12 +184,14 @@
     '';
   home.activation.nvim = ''
     if [ ! -d ~/.config/nvim ]; then
+      echo '> installing nvchad for neovim'
       "${pkgs.git}/bin/git" clone --depth=1 https://github.com/nvchad/nvchad.git ~/.config/nvim
     else
       echo '> nvim config exists; if you need to, rm -rf ~/.config/nvim and rerun home-manager switch'
     fi
     '';
   home.activation.xdg = ''
+    echo '> using xdg-user-dirs to ensure "standard" folders exist in home'
     "${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update"
     '';
 
