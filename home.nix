@@ -101,6 +101,9 @@
       background_opacity 0.6
       font_family FiraCode Nerd Font
       '';
+    ".config/kitty/default_session.conf".text = ''
+      launch --env SHELL=${pkgs.zsh}/bin/zsh zsh
+      '';
     ".config/dunst/dunstrc".text = ''
       [global]
         frame_width = 1
