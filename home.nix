@@ -37,6 +37,22 @@
     ];
     initExtra = ''
       source ~/.p10k.zsh
+      export SSH_ENV="$HOME/.ssh/agent-environment.zsh"
+      start_agent() {
+        echo "Initializing new SSH agent..."
+        ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
+        echo succeeded
+        chmod 600 "$SSH_ENV"
+        source "$SSH_ENV"
+        ssh-add
+      }
+      
+      if [ -f "$SSH_ENV" ]; then
+        source "$SSH_ENV"
+        ps -ef | grep $SSH_AGENT_PID | grep -e 'ssh-agent$' > /dev/null || start_agent
+      else
+        start_agent
+      fi
       '';
   };
 
@@ -106,7 +122,7 @@
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.6
       font_family FiraCode Nerd Font
-      shell ${pkgs.zsh}/bin/zsh
+      shell env SHELL=${pkgs.zsh}/bin/zsh ${pkgs.zsh}/bin/zsh
       '';
     ".config/dunst/dunstrc".text = ''
       [global]
