@@ -63,6 +63,7 @@
 
   # home.allowUnfree = true;
   home.packages = with pkgs; [
+    awscli2
     bitwarden
     brave
     cmatrix
@@ -74,6 +75,7 @@
     emacs
     erlang
     eza
+    ffmpeg
     firefox
     fortune
     gh # github cli
