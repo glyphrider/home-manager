@@ -79,8 +79,10 @@
     firefox
     fortune
     gh # github cli
+    gimp
     gnome3.adwaita-icon-theme
     google-chrome
+    grim
     htop
     kitty
     lollypop
@@ -93,7 +95,9 @@
     rebar3 # build tool for erlang; needed for erlang-ls in neovim
     rustup # used to install a version of rust
     signify # verify package signatures, like for GrapheneOS
+    slurp
     steam
+    swappy
     swaylock-effects # a tired ol' version of swaylock, but it works
     swww # wallpaper management for Wayland/Hyprland
     tela-circle-icon-theme 
@@ -104,6 +108,7 @@
     waybar # my bar of choice for Hyprland
     wineWowPackages.stable # both 64-bit and 32-bit wine(s)
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
+    wl-clipboard
     # wlogout # a good idea, if we ever decide to use a desktop manager (e.g. sddm, gdm)
     wofi # Wayland graphical launcher (like rofi, but Waylandified)
     xdg-user-dirs
