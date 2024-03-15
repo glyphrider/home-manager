@@ -61,7 +61,8 @@
     enableZshIntegration = true;
   };
 
-  # home.allowUnfree = true;
+  fonts.fontconfig.enable = true;
+  home.allowUnfree = true;
   home.packages = with pkgs; [
     awscli2
     bitwarden
@@ -89,6 +90,7 @@
     lutris
     neofetch
     neovim
+    nerdfonts
     newsboat
     obs-studio
     pavucontrol # pipewire -> pulseaudio
