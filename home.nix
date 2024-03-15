@@ -62,7 +62,7 @@
   };
 
   fonts.fontconfig.enable = true;
-  home.allowUnfree = true;
+
   home.packages = with pkgs; [
     awscli2
     bitwarden
