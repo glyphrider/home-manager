@@ -183,7 +183,7 @@
     slurp
     steam
     swappy
-    swaylock-effects # a tired ol' version of swaylock, but it works
+    # swaylock-effects # a tired ol' version of swaylock, but it works
     swww # wallpaper management for Wayland/Hyprland
     tela-circle-icon-theme 
     tmux
@@ -422,6 +422,21 @@
     '';
   };
 
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      indicator = true;
+      clock = true;
+      screenshots = true;
+      effect-greyscale = true;
+      effect-blur="4x4";
+      effect-vignette="0:1";
+      indicator-radius=200;
+      indicator-thickness=50;
+    };
+    package = pkgs.swaylock-effects;
+  };
+
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
   wayland.windowManager.hyprland.plugins = [
@@ -573,7 +588,7 @@
   home.file = {
     ".config/tmux/tmux.conf".source = ./tmux.conf;
     ".emacs".source = ./emacs;
-    ".config/swaylock/config".source = ./swaylock.conf;
+    # ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
 
