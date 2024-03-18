@@ -56,6 +56,32 @@
       '';
   };
 
+  programs.git = {
+    enable = true;
+    userName = "Brian H. Ward";
+    userEmail = "glyphrider@gmail.com";
+    signing = {
+      key = "A1268F7E5E7EBFDF";
+      signByDefault = true;
+    };
+    aliases = {
+      lol = "log --pretty=oneline --abbrerv-commit --graph --decorate";
+      los = "log --show-signature";
+    };
+    extraConfig = {
+      pull = { rebase = "false"; };
+      init = { defaultBranch = "main"; };
+    };
+  };
+
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper = {
+      enable = true;
+      hosts = [ "github.com" "gists.github.com" ];
+    };
+  };
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -79,6 +105,7 @@
     ffmpeg
     firefox
     fortune
+    git
     gh # github cli
     gimp
     gnome3.adwaita-icon-theme
@@ -126,7 +153,7 @@
     ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
-    ".gitconfig".source = ./gitconfig;
+    # ".gitconfig".source = ./gitconfig;
 
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.6
