@@ -12,8 +12,8 @@
 
   outputs = { nixpkgs, home-manager, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      # system = "x86_64-linux";
+      pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
     in {
       homeConfigurations."brian" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
