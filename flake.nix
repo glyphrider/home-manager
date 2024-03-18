@@ -8,15 +8,22 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { ... }@inputs:
     let
-      # system = "x86_64-linux";
-      pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
+      system = "x86_64-linux";
+      pkgs = import inputs.nixpkgs { system = "${system}"; config.allowUnfree = true; };
+      hyprland-plugins = inputs.hyprland-plugins;
     in {
-      homeConfigurations."brian" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."brian" = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = { inherit inputs; };
 
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.

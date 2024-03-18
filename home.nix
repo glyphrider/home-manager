@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # nixpkgs.config.allowUnfree = true;
@@ -190,7 +190,6 @@
     tor
     unzip # needed for the elixir-ls in neovim
     vivaldi
-    waybar # my bar of choice for Hyprland
     wineWowPackages.stable # both 64-bit and 32-bit wine(s)
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
     wl-clipboard
@@ -201,6 +200,10 @@
 
   programs.waybar = {
     enable = true;
+    systemd = {
+      enable = true;
+      target = "hyprland-session.target";
+    };
     settings = [{
       layer = "top";
       position = "top";
@@ -419,11 +422,157 @@
     '';
   };
 
+  wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+  wayland.windowManager.hyprland.plugins = [
+    inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+  ];
+  wayland.windowManager.hyprland.settings = {
+    "$mod" = "SUPER";
+
+    "plugin:borders-plus-plus" = {
+      add_borders = 1;
+      "col.border_1" = "rgb(ffffff)";
+      "col.border_2" = "rgb(2222ff)";
+
+      border_size_1 = 2;
+      border_size_2 = -2;
+
+      natural_rounding = "yes";
+    };
+
+    input = {
+      kb_layout = "us";
+      follow_mouse = "1";
+      touchpad = {
+        natural_scroll = "true";
+        "tap-to-click" = "false";
+      };
+      sensitivity = "0"; # -1.0 - 1.0, 0 means no modification.
+    };
+
+    general = {
+      gaps_in = "5";
+      gaps_out = "20";
+      border_size = "2";
+      "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+      "col.inactive_border" = "rgba(595959aa)";
+
+      layout = "dwindle";
+
+      allow_tearing = "false";
+    };
+
+    decoration = {
+    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+
+      rounding = "10";
+
+      blur = {
+        enabled = "true";
+        size = "3";
+        passes = "1";
+        vibrancy = "0.1696";
+      };
+
+      drop_shadow = "true";
+      shadow_range = "4";
+      shadow_render_power = "3";
+      "col.shadow" = "rgba(1a1a1aee)";
+    };
+
+    animations = {
+      enabled = "true";
+
+      # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+
+      bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+
+      animation = [
+        "windows, 1, 7, myBezier"
+        "windowsOut, 1, 7, default, popin 80%"
+        "border, 1, 10, default"
+        "borderangle, 1, 8, default"
+        "fade, 1, 7, default"
+        "workspaces, 1, 6, default"
+      ];
+    };
+
+    dwindle = {
+      # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
+      pseudotile = "true"; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+      preserve_split = "true"; # you probably want this
+    };
+
+    master = {
+      # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+      new_is_master = "true";
+    };
+
+    gestures = {
+      # See https://wiki.hyprland.org/Configuring/Variables/ for more
+      workspace_swipe = "false";
+    };
+
+    misc = {
+      # See https://wiki.hyprland.org/Configuring/Variables/ for more
+      force_default_wallpaper = "-1"; # Set to 0 to disable the anime mascot wallpapers
+    };
+
+    bindm = [
+      "$mod, mouse:272, movewindow"
+      "$mod, mouse:273, resizewindow"
+    ];
+
+    bind = [
+      "$mod, Return, exec, kitty"
+      "$mod, C, killactive,"
+      "$mod SHIFT, Q, exit"
+      "$mod, L, exec, swaylock"
+      "$mod, E, exec, thunar"
+      "$mod, V, togglefloating,"
+      "$mod, R, exec, wofi --show drun"
+      "$mod, P, pseudo, # dwindle"
+      "$mod, J, togglesplit, # dwindle"
+      "$mod SHIFT, F, fullscreen"
+      "$mod, left, movefocus, l"
+      "$mod, right, movefocus, r"
+      "$mod, up, movefocus, u"
+      "$mod, down, movefocus, d"
+      "$mod, S, togglespecialworkspace, magic"
+      "$mod SHIFT, S, movetoworkspace, special:magic"
+      "$mod, mouse_down, workspace, e+1"
+      "$mod, mouse_up, workspace, e-1"
+      ]
+      ++ (
+        # workspaces
+        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+        builtins.concatLists (builtins.genList (
+            x: let
+              ws = let
+                c = (x + 1) / 10;
+              in
+                builtins.toString (x + 1 - (c * 10));
+            in [
+              "$mod, ${ws}, workspace, ${toString (x + 1)}"
+              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+            ]
+          )
+          10)
+      );
+
+    exec-once = [
+      # "waybar"
+      "blueman-applet"
+      "dunst"
+      "network-manager-applet"
+      ];
+  };
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
   home.file = {
     ".config/tmux/tmux.conf".source = ./tmux.conf;
     ".emacs".source = ./emacs;
-    ".config/hypr/hyprland.conf".source = ./hyprland.conf;
     ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
