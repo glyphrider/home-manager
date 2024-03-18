@@ -89,6 +89,62 @@
 
   fonts.fontconfig.enable = true;
 
+  services.blueman-applet.enable = true;
+  services.dunst.enable = true;
+  services.network-manager-applet.enable = true;
+  
+  services.dunst.settings = {
+    global = {
+      frame_width = 1;
+      frame_color = "#000000";
+      font = "Arimo Nerd Font Propo 10";
+      markup = "yes";
+      format = "<big><b>%s</b></big> %p\n%b";
+      sort = "yes";
+      indicate_hidden = "yes";
+      alignment = "left";
+      show_age_threshold = 60;
+      word_wrap = "no";
+      ignore_newline = "no";
+      height = 256;
+      width = "(384, 512)";
+      offset = "32x32";
+      shrink = "no";
+      transparency = 15;
+      corner_radius = 7;
+      idle_threshold = 120;
+      monitor = 0;
+      follow = "keyboard";
+      sticky_history = "yes";
+      history_length = 20;
+      show_indicators = "yes";
+      line_height = 0;
+      padding = 8;
+      horizontal_padding = 10;
+      icon_position = "left";
+      icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/:${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/panel/:";
+      max_icon_size = 128;
+    };
+    urgency_low = {
+      background = "#000000";
+      foreground = "#808080";
+      timeout = 15;
+    };
+    urgency_normal = {
+      background = "#141003";
+      foreground = "#e1c564";
+      timeout = 15;
+      icon = "bell";
+    };
+    urgency_critical = {
+      frame_color = "#ff0000";
+      background = "#fff8dc";
+      foreground = "#ff0000";
+      timeout = 0;
+      icon = "firewall-applet-panic";
+    };
+  };
+
   home.packages = with pkgs; [
     awscli2
     bitwarden
@@ -143,74 +199,240 @@
     xdg-user-dirs
   ];
 
+  programs.waybar = {
+    enable = true;
+    settings = [{
+      layer = "top";
+      position = "top";
+      mod = "dock";
+      exclusive = true;
+      passthrough = false;
+      gtk-layer-shell = true;
+      height = 24;
+      margin-left = 5;
+      margin-right = 5;
+      margin-top = 5;
+      modules-left = [
+        "wlr/taskbar"
+        "hyprland/workspaces"
+      ];
+      modules-center = [
+        "hyprland/window"
+      ];
+      modules-right = [
+          "tray"
+          "battery"
+          "cpu"
+          "memory"
+          "temperature"
+          "network"
+          "clock"
+      ];
+  
+      "wlr/taskbar" = {
+        format = "{icon}";
+        icon-size = 16;
+        all-outputs = true;
+        tooltip-format = "{name} - {title}";
+        on-click = "activate";
+        ignore-list = [
+          "wofi"
+        ];
+      };
+  
+      "hyprland/window" = {
+      };
+  
+      "hyprland/workspaces" = {
+          disable-scroll = true;
+          on-click = "activate";
+      };
+  
+      tray = {
+          icon-size = 16;
+          spacing = 10;
+      };
+  
+      cpu = {
+        format = "  ({}%)";
+      };
+  
+      memory = {
+        format = "  ({}%)";
+      };
+  
+      battery = {
+        format = "  ({}%)";
+      };
+  
+      temperature = {
+          hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
+          format = " {temperatureF}°F";
+          format-alt-click = "click-right";
+          format-alt = " {temperature}°C";
+      };
+  
+      clock = {
+        format = "{:%I:%M%p}";
+        tooltip-format = "{:  %A, %B %e %Y}";
+      };
+  
+      network = {
+      	format = "{ifname}";
+      	format-wifi = "{essid} ({signalStrength}%) ";
+      	format-ethernet = "{ifname} ";
+      	format-disconnected = "";
+      	tooltip-format = "{ifname}";
+      	tooltip-format-wifi = "{essid} ({signalStrength}%) ";
+      	tooltip-format-ethernet = "{ifname} ";
+      	tooltip-format-disconnected = "Disconnected";
+      	max-length = 50;
+      };
+    }];
+    style = ''
+      * {
+          border: none;
+          /* font-family: "NotoMono Nerd Font"; */
+          font-family: "Arimo Nerd Font Propo";
+          font-weight: bold;
+          font-size: 16px;
+          min-height: 0;
+      }
+      
+      window#waybar {
+        padding: 2px;
+        background: rgba(0,0,0,0.0);
+        color: #f6f7fc;
+        margin: 2px 5px;
+        border-radius: 10;
+        padding: 1px 5px;
+      }
+      
+      tooltip {
+          background: #1e1e2e;
+          opacity: 0.8;
+          border-radius: 10px;
+          border-width: 2px;
+          border-style: solid;
+          border-color: #11111b;
+      }
+      
+      tooltip label{
+          color: #cdd6f4;
+      }
+      
+      #workspaces button {
+          padding: 1px 5px;
+          color: #f6f7fc;
+          margin: 2px 5px;
+      }
+      
+      #workspaces button.active {
+          color: #000000;
+          background: #f6f7fc;
+          border-radius: 10px;
+      }
+      
+      #workspaces button:hover {
+          background: #11111b;
+          color: #cdd6f4;
+          border-radius: 10px;
+      }
+      
+      #custom-launch_wofi,
+      #custom-launch_firefox,
+      #custom-launch_chrome,
+      #custom-launch_thunderbird,
+      #custom-launch_gmail,
+      #custom-launch_thunar,
+      #custom-launch_kitty,
+      #custom-launch_alacritty,
+      #custom-lock_screen,
+      #custom-light_dark,
+      #custom-power_btn,
+      #custom-power_profile,
+      #custom-weather,
+      #custom-myhyprv,
+      #window,
+      #cpu,
+      #disk,
+      #custom-updates,
+      #memory,
+      #clock,
+      #battery,
+      #pulseaudio,
+      #network,
+      #tray,
+      #temperature,
+      #workspaces,
+      #idle_inhibitor,
+      #taskbar,
+      #backlight {
+          background: rgba(0, 0, 0, 0.2);
+          opacity: 1;
+          padding: 0px 8px;
+          margin: 0px 3px;
+          border: 0px;
+          border-radius: 10px;
+      }
+      
+      #custom-hyprland {
+        color: rgba(51,204,255,238);
+        padding: 1px 5px;
+        background: rgba(255,255,255,0.3);
+        margin: 2px 5px;
+        border-radius: 10px;
+      }
+      
+      #temperature.critical {
+          color: #e92d4d;
+      }
+      
+      #workspaces {
+          padding-right: 0px;
+          padding-left: 5px;
+      }
+      
+      #window {
+          background: rgba(0,0,0,0.2);
+          border-radius: 10px;
+          margin-left: 0px;
+          margin-right: 0px;
+      }
+      
+      #custom-launch_firefox, 
+      #custom-launch_thunderbird,
+      #custom-launch_thunar,
+      #custom-launch_wofi,
+      #custom-launch_kitty,
+      #custom-weather {
+          margin-left: 0px;
+          border-right: 0px;
+          font-size: 24px;
+          margin-right: 20px;
+      }
+      
+      #custom-launch_firefox, 
+      #custom-launch_kitty {
+          font-size: 20px;
+      }
+    '';
+  };
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
   home.file = {
     ".config/tmux/tmux.conf".source = ./tmux.conf;
     ".emacs".source = ./emacs;
     ".config/hypr/hyprland.conf".source = ./hyprland.conf;
-    ".config/hypr/waybar-config.jsonc".source = ./waybar-config.jsonc;
-    ".config/hypr/waybar-style.css".source = ./waybar-style.css;
     ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
-    # ".gitconfig".source = ./gitconfig;
 
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.6
       font_family FiraCode Nerd Font
       shell env SHELL=${pkgs.zsh}/bin/zsh ${pkgs.zsh}/bin/zsh
       '';
-    ".config/dunst/dunstrc".text = ''
-      [global]
-        frame_width = 1
-        frame_color = "#000000"
-        font = Arimo Nerd Font Propo 10;
-        markup = yes
-        format = "<big><b>%s</b></big> %p\n%b"
-        sort = yes
-        indicate_hidden = yes
-        alignment = left
-        show_age_threshold = 60
-        word_wrap $= no
-        ignore_newline = no
-        height = 256
-        width = (384, 512)
-        offset = 32x32
-        shrink = no
-        transparency = 15
-        corner_radius = 7
-        idle_threshold = 120
-        monitor = 0
-        follow = keyboard
-        sticky_history = yes
-        history_length = 20
-        show_indicators = yes
-        line_height = 0
-        padding = 8
-        horizontal_padding = 10
-        icon_position = left
-        icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/:${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/panel/:"
-        max_icon_size = 128
-      
-      [urgency_low]
-        background = "#000000"
-        foreground = "#808080"
-        timeout = 15
-      
-      [urgency_normal]
-        background = "#141003"
-        foreground = "#e1c564"
-        timeout = 15
-        icon = bell
-      
-      [urgency_critical]
-        frame_color = "#ff0000"
-        background = "#fff8dc"
-        foreground = "#ff0000"
-        timeout = 0
-        icon = firewall-applet-panic
-      '';
-    
   };
 
   home.activation.tpm = ''
