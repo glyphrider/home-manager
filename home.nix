@@ -224,8 +224,6 @@
       modules-right = [
           "tray"
           "battery"
-          "cpu"
-          "memory"
           "temperature"
           "clock"
       ];
@@ -263,15 +261,16 @@
       };
   
       battery = {
-        format = "{icon} ({}%)";
+        format = "{icon}";
 	format-icons = [ "" "" "" "" "" ];
       };
   
       temperature = {
           hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
-          format = " {temperatureF}°F";
+          format = "{icon} {temperatureF}°F";
           format-alt-click = "click-right";
-          format-alt = " {temperature}°C";
+          format-alt = "{icon} {temperature}°C";
+          format-icons = [ "" "" "" "" "" ];
       };
   
       clock = {
