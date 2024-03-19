@@ -33,7 +33,6 @@
     ];
     initExtra = ''
       source ~/.p10k.zsh
-      source ~/.asdf/asdf.sh
       '';
   };
 
@@ -150,6 +149,7 @@
   };
 
   home.packages = with pkgs; [
+    asdf-vm
     awscli2
     bitwarden
     brave
@@ -159,9 +159,7 @@
     discord
     dunst
     elixir
-    # emacs
     erlang
-    # eza
     ffmpeg
     firefox
     fortune
@@ -178,6 +176,7 @@
     neofetch
     neovim
     nerdfonts
+    networkmanagerapplet
     newsboat
     obs-studio
     pavucontrol # pipewire -> pulseaudio
@@ -187,18 +186,14 @@
     slurp
     steam
     swappy
-    # swaylock-effects # a tired ol' version of swaylock, but it works
     swww # wallpaper management for Wayland/Hyprland
     tela-circle-icon-theme 
-    # tmux
     tor
     unzip # needed for the elixir-ls in neovim
     vivaldi
     wineWowPackages.stable # both 64-bit and 32-bit wine(s)
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
     wl-clipboard
-    # wlogout # a good idea, if we ever decide to use a desktop manager (e.g. sddm, gdm)
-    # wofi # Wayland graphical launcher (like rofi, but Waylandified)
     xdg-user-dirs
   ];
 
@@ -232,7 +227,6 @@
           "cpu"
           "memory"
           "temperature"
-          "network"
           "clock"
       ];
   
@@ -269,7 +263,8 @@
       };
   
       battery = {
-        format = "  ({}%)";
+        format = "{icon} ({}%)";
+	format-icons = [ "" "" "" "" "" ];
       };
   
       temperature = {
@@ -546,7 +541,7 @@
     bind = [
       "$mod, Return, exec, kitty"
       "$mod, C, killactive,"
-      "$mod SHIFT, Q, exit"
+      "$mod, Q, exit"
       "$mod, L, exec, swaylock"
       "$mod, E, exec, thunar"
       "$mod, V, togglefloating,"
@@ -694,7 +689,6 @@
     plugins = with pkgs.tmuxPlugins; [
       sensible
       vim-tmux-navigator
-      # catppuccin
       yank
     ];
   };
@@ -720,15 +714,7 @@
       '';
   };
 
-  home.activation.asdf = ''
-    if [ ! -d ~/.asdf ]; then
-      echo '> installing asdf version manager (via git)'
-      "${pkgs.git}/bin/git" clone https://github.com/asdf-vm/asdf.git ~/.asdf
-    else
-      echo '> asdf version manager already installed'
-    fi
-    '';
-  home.activation.nvim = ''
+  home.activation.nvchad = ''
     if [ ! -d ~/.config/nvim ]; then
       echo '> installing nvchad for neovim'
       "${pkgs.git}/bin/git" clone --depth=1 https://github.com/nvchad/nvchad.git ~/.config/nvim
