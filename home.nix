@@ -252,14 +252,6 @@
           spacing = 10;
       };
   
-      cpu = {
-        format = "  ({}%)";
-      };
-  
-      memory = {
-        format = "  ({}%)";
-      };
-  
       battery = {
         format = "{icon}";
 	format-icons = [ "" "" "" "" "" ];
@@ -278,17 +270,6 @@
         tooltip-format = "{:  %A, %B %e %Y}";
       };
   
-      network = {
-      	format = "{ifname}";
-      	format-wifi = "{essid} ({signalStrength}%) ";
-      	format-ethernet = "{ifname} ";
-      	format-disconnected = "";
-      	tooltip-format = "{ifname}";
-      	tooltip-format-wifi = "{essid} ({signalStrength}%) ";
-      	tooltip-format-ethernet = "{ifname} ";
-      	tooltip-format-disconnected = "Disconnected";
-      	max-length = 50;
-      };
     }];
     style = ''
       * {
@@ -340,49 +321,19 @@
           border-radius: 10px;
       }
       
-      #custom-launch_wofi,
-      #custom-launch_firefox,
-      #custom-launch_chrome,
-      #custom-launch_thunderbird,
-      #custom-launch_gmail,
-      #custom-launch_thunar,
-      #custom-launch_kitty,
-      #custom-launch_alacritty,
-      #custom-lock_screen,
-      #custom-light_dark,
-      #custom-power_btn,
-      #custom-power_profile,
-      #custom-weather,
-      #custom-myhyprv,
       #window,
-      #cpu,
-      #disk,
-      #custom-updates,
-      #memory,
       #clock,
       #battery,
-      #pulseaudio,
-      #network,
       #tray,
       #temperature,
       #workspaces,
-      #idle_inhibitor,
-      #taskbar,
-      #backlight {
+      #taskbar {
           background: rgba(0, 0, 0, 0.2);
           opacity: 1;
           padding: 0px 8px;
           margin: 0px 3px;
           border: 0px;
           border-radius: 10px;
-      }
-      
-      #custom-hyprland {
-        color: rgba(51,204,255,238);
-        padding: 1px 5px;
-        background: rgba(255,255,255,0.3);
-        margin: 2px 5px;
-        border-radius: 10px;
       }
       
       #temperature.critical {
@@ -399,23 +350,6 @@
           border-radius: 10px;
           margin-left: 0px;
           margin-right: 0px;
-      }
-      
-      #custom-launch_firefox, 
-      #custom-launch_thunderbird,
-      #custom-launch_thunar,
-      #custom-launch_wofi,
-      #custom-launch_kitty,
-      #custom-weather {
-          margin-left: 0px;
-          border-right: 0px;
-          font-size: 24px;
-          margin-right: 20px;
-      }
-      
-      #custom-launch_firefox, 
-      #custom-launch_kitty {
-          font-size: 20px;
       }
     '';
   };
