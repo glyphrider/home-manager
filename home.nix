@@ -191,6 +191,7 @@
     tor
     unzip # needed for the elixir-ls in neovim
     vivaldi
+    vscode
     wineWowPackages.stable # both 64-bit and 32-bit wine(s)
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
     wl-clipboard
@@ -376,7 +377,7 @@
   ];
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
-
+    monitor = ",preferred,auto,1.0";
     "plugin:borders-plus-plus" = {
       add_borders = 1;
       "col.border_1" = "rgb(ffffff)";
