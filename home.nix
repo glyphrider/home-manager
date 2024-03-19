@@ -82,6 +82,20 @@
     };
   };
 
+  programs.emacs = {
+    enable = true;
+#    extraConfig = ''
+#      (setq erlang-root-dir "${pkgs.erlang}/lib/erlang/" )
+#      (setq erlang-lib-dir (concat erlang-root-dir "lib/"))
+#      (setq erlang-bin-dir (concat erlang-root-dir "bin/"))
+#      (setq erlang-tools (car (directory-files erlang-lib-dir nil "^tools-.*")))
+#      (setq erlang-mode-dir (concat erlang-lib-dir erlang-tools "/emacs"))
+#      (setq load-path (cons erlang-mode-dir load-path))
+#      (setq exec-path (cons erlang-bin-dir exec-path))
+#      (require 'erlang-start)
+#    '';
+  };
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -155,7 +169,7 @@
     discord
     dunst
     elixir
-    emacs
+    # emacs
     erlang
     eza
     ffmpeg
@@ -587,11 +601,19 @@
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
   home.file = {
     ".config/tmux/tmux.conf".source = ./tmux.conf;
-    ".emacs".source = ./emacs;
-    # ".config/swaylock/config".source = ./swaylock.conf;
     ".config/wofi/config".source = ./wofi.conf;
     ".config/wofi/style.css".source = ./wofi-style.css;
 
+    ".emacs".text = ''
+      (setq erlang-root-dir "${pkgs.erlang}/lib/erlang/")
+      (setq erlang-lib-dir (concat erlang-root-dir "lib/"))
+      (setq erlang-bin-dir (concat erlang-root-dir "bin/"))
+      (setq erlang-tools (car (directory-files erlang-lib-dir nil "^tools-.*")))
+      (setq erlang-mode-dir (concat erlang-lib-dir erlang-tools "/emacs"))
+      (setq load-path (cons erlang-mode-dir load-path))
+      (setq exec-path (cons erlang-bin-dir exec-path))
+      (require 'erlang-start)
+      '';
     ".config/kitty/kitty.conf".text = ''
       background_opacity 0.6
       font_family FiraCode Nerd Font
