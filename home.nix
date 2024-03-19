@@ -22,14 +22,10 @@
     enableCompletion = true;
     enableAutosuggestions = true;
     syntaxHighlighting.enable = true;
-    shellAliases = {
-      ls = "${pkgs.eza}/bin/eza -aF --icons --color=auto --group-directories-first --git";
-      ll = "${pkgs.eza}/bin/eza -alF --icons --color=auto --group-directories-first --git";
-    };
     history.size = 10000;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "gh" ];
+      plugins = [ "git" "gh" "ssh-agent" ];
     };
     plugins = [
       { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
@@ -37,22 +33,7 @@
     ];
     initExtra = ''
       source ~/.p10k.zsh
-      export SSH_ENV="$HOME/.ssh/agent-environment.zsh"
-      start_agent() {
-        echo "Initializing new SSH agent..."
-        ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
-        echo succeeded
-        chmod 600 "$SSH_ENV"
-        source "$SSH_ENV"
-        ssh-add
-      }
-      
-      if [ -f "$SSH_ENV" ]; then
-        source "$SSH_ENV"
-        ps -ef | grep $SSH_AGENT_PID | grep -e 'ssh-agent$' > /dev/null || start_agent
-      else
-        start_agent
-      fi
+      source ~/.asdf/asdf.sh
       '';
   };
 
@@ -99,6 +80,15 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
+  };
+
+  programs.eza = {
+    enable = true;
+    # enableZshIntegration = true;
+    # enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
+    git = true;
+    icons = true;
   };
 
   fonts.fontconfig.enable = true;
@@ -171,7 +161,7 @@
     elixir
     # emacs
     erlang
-    eza
+    # eza
     ffmpeg
     firefox
     fortune
@@ -200,7 +190,7 @@
     # swaylock-effects # a tired ol' version of swaylock, but it works
     swww # wallpaper management for Wayland/Hyprland
     tela-circle-icon-theme 
-    tmux
+    # tmux
     tor
     unzip # needed for the elixir-ls in neovim
     vivaldi
@@ -208,7 +198,7 @@
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
     wl-clipboard
     # wlogout # a good idea, if we ever decide to use a desktop manager (e.g. sddm, gdm)
-    wofi # Wayland graphical launcher (like rofi, but Waylandified)
+    # wofi # Wayland graphical launcher (like rofi, but Waylandified)
     xdg-user-dirs
   ];
 
@@ -696,9 +686,22 @@
     '';
   };
 
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+    shortcut = "Space";
+    baseIndex = 1;
+    plugins = with pkgs.tmuxPlugins; [
+      sensible
+      vim-tmux-navigator
+      # catppuccin
+      yank
+    ];
+  };
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
   home.file = {
-    ".config/tmux/tmux.conf".source = ./tmux.conf;
+    #".config/tmux/tmux.conf".source = ./tmux.conf;
 
     ".emacs".text = ''
       (setq erlang-root-dir "${pkgs.erlang}/lib/erlang/")
@@ -717,14 +720,6 @@
       '';
   };
 
-  home.activation.tpm = ''
-    if [ ! -d ~/.tmux/plugins/tpm ]; then
-      echo '> installing tmux plugin manager (via git)'
-      "${pkgs.git}/bin/git" clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    else
-      echo '> tmux plugin manager already installed'
-    fi
-    '';
   home.activation.asdf = ''
     if [ ! -d ~/.asdf ]; then
       echo '> installing asdf version manager (via git)'
@@ -732,15 +727,6 @@
     else
       echo '> asdf version manager already installed'
     fi
-    '';
-  home.activation.ssh = ''
-    if [ ! -d ~/.ssh ]; then
-      echo '> creating an ssh directory'
-      mkdir ~/.ssh
-    else
-      echo '> user ssh directory already created'
-    fi
-    chmod 700 ~/.ssh
     '';
   home.activation.nvim = ''
     if [ ! -d ~/.config/nvim ]; then
