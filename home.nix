@@ -20,7 +20,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     history.size = 10000;
     oh-my-zsh = {
@@ -84,8 +84,8 @@
 
   programs.eza = {
     enable = true;
-    # enableZshIntegration = true;
-    # enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
+    enableZshIntegration = true;
+    enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
     git = true;
     icons = true;
   };
