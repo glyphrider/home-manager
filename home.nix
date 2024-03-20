@@ -92,9 +92,9 @@
 
   fonts.fontconfig.enable = true;
 
-  services.blueman-applet.enable = true;
+  # services.blueman-applet.enable = true;
   services.dunst.enable = true;
-  services.network-manager-applet.enable = true;
+  # services.network-manager-applet.enable = true;
   
   services.dunst.settings = {
     global = {
@@ -152,6 +152,7 @@
     asdf-vm
     awscli2
     bitwarden
+    blueman
     brave
     cmatrix
     cmus
@@ -506,10 +507,10 @@
       );
 
     exec-once = [
-      "waybar"
-      "blueman-applet"
-      "dunst"
-      "network-manager-applet"
+      "${pkgs.waybar}/bin/waybar"
+      "${pkgs.blueman}/bin/blueman-applet"
+      # "${pkgs.dunst}/bin/dunst"
+      "${pkgs.networkmanagerapplet}/bin/nm-applet"
       ];
   };
 
