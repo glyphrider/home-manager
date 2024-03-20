@@ -186,7 +186,6 @@
     slurp
     steam
     swappy
-    swww # wallpaper management for Wayland/Hyprland
     tela-circle-icon-theme 
     tor
     unzip # needed for the elixir-ls in neovim
