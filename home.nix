@@ -192,6 +192,7 @@
     unzip # needed for the elixir-ls in neovim
     vivaldi
     vscode
+    waybar
     wineWowPackages.stable # both 64-bit and 32-bit wine(s)
     wireshark # wireshark seems to need both the package *and* the programs.wireshark.enable = true
     wl-clipboard
@@ -200,10 +201,6 @@
 
   programs.waybar = {
     enable = true;
-    systemd = {
-      enable = true;
-      target = "hyprland-session.target";
-    };
     settings = [{
       layer = "top";
       position = "top";
@@ -510,6 +507,7 @@
       );
 
     exec-once = [
+      "waybar"
       "blueman-applet"
       "dunst"
       "network-manager-applet"
