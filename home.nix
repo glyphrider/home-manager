@@ -626,8 +626,6 @@
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
   home.file = {
-    #".config/tmux/tmux.conf".source = ./tmux.conf;
-
     ".emacs".text = ''
       (setq erlang-root-dir "${pkgs.erlang}/lib/erlang/")
       (setq erlang-lib-dir (concat erlang-root-dir "lib/"))
