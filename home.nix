@@ -10,6 +10,8 @@
 
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  fonts.fontconfig.enable = true;
+
   programs.bash = {
     enable = true;
     shellAliases = {
@@ -34,6 +36,20 @@
     initExtra = ''
       source ~/.p10k.zsh
       '';
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
+  };
+
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
+    git = true;
+    icons = true;
   };
 
   programs.git = {
@@ -64,87 +80,18 @@
 
   programs.emacs = {
     enable = true;
-#    extraConfig = ''
-#      (setq erlang-root-dir "${pkgs.erlang}/lib/erlang/" )
-#      (setq erlang-lib-dir (concat erlang-root-dir "lib/"))
-#      (setq erlang-bin-dir (concat erlang-root-dir "bin/"))
-#      (setq erlang-tools (car (directory-files erlang-lib-dir nil "^tools-.*")))
-#      (setq erlang-mode-dir (concat erlang-lib-dir erlang-tools "/emacs"))
-#      (setq load-path (cons erlang-mode-dir load-path))
-#      (setq exec-path (cons erlang-bin-dir exec-path))
-#      (require 'erlang-start)
-#    '';
   };
 
-  programs.fzf = {
+  programs.tmux = {
     enable = true;
-    enableZshIntegration = true;
-    tmux.enableShellIntegration = true;
-  };
-
-  programs.eza = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
-    git = true;
-    icons = true;
-  };
-
-  fonts.fontconfig.enable = true;
-
-  services.dunst = {
-    enable = true;
-    settings = {
-      global = {
-        frame_width = 1;
-        frame_color = "#000000";
-        font = "Arimo Nerd Font Propo 10";
-        markup = "yes";
-        format = "<big><b>%s</b></big> %p\n%b";
-        sort = "yes";
-        indicate_hidden = "yes";
-        alignment = "left";
-        show_age_threshold = 60;
-        word_wrap = "no";
-        ignore_newline = "no";
-        height = 256;
-        width = "(384, 512)";
-        offset = "32x32";
-        shrink = "no";
-        transparency = 15;
-        corner_radius = 7;
-        idle_threshold = 120;
-        monitor = 0;
-        follow = "keyboard";
-        sticky_history = "yes";
-        history_length = 20;
-        show_indicators = "yes";
-        line_height = 0;
-        padding = 8;
-        horizontal_padding = 10;
-        icon_position = "left";
-        icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/:${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/panel/:";
-        max_icon_size = 128;
-      };
-      urgency_low = {
-        background = "#000000";
-        foreground = "#808080";
-        timeout = 15;
-      };
-      urgency_normal = {
-        background = "#141003";
-        foreground = "#e1c564";
-        timeout = 15;
-        icon = "bell";
-      };
-      urgency_critical = {
-        frame_color = "#ff0000";
-        background = "#fff8dc";
-        foreground = "#ff0000";
-        timeout = 0;
-        icon = "firewall-applet-panic";
-      };
-    };
+    mouse = true;
+    shortcut = "Space";
+    baseIndex = 1;
+    plugins = with pkgs.tmuxPlugins; [
+      sensible
+      vim-tmux-navigator
+      yank
+    ];
   };
 
   home.packages = with pkgs; [
@@ -197,6 +144,166 @@
     wl-clipboard
     xdg-user-dirs
   ];
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    plugins = [
+      inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+    ];
+    settings = {
+      "$mod" = "SUPER";
+
+      monitor = ",preferred,auto,1.0";
+
+      "plugin:borders-plus-plus" = {
+        add_borders = 1;
+        "col.border_1" = "rgb(ffffff)";
+        "col.border_2" = "rgb(2222ff)";
+
+        border_size_1 = 2;
+        border_size_2 = -2;
+
+        natural_rounding = "yes";
+      };
+
+      input = {
+        kb_layout = "us";
+        follow_mouse = "1";
+        touchpad = {
+          natural_scroll = "true";
+          "tap-to-click" = "false";
+        };
+        sensitivity = "0"; # -1.0 - 1.0, 0 means no modification.
+      };
+
+      general = {
+        gaps_in = "5";
+        gaps_out = "20";
+        border_size = "2";
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
+
+        layout = "dwindle";
+
+        allow_tearing = "false";
+      };
+
+      decoration = {
+      # See https://wiki.hyprland.org/Configuring/Variables/ for more
+
+        rounding = "10";
+
+        blur = {
+          enabled = "true";
+          size = "3";
+          passes = "1";
+          vibrancy = "0.1696";
+        };
+
+        drop_shadow = "true";
+        shadow_range = "4";
+        shadow_render_power = "3";
+        "col.shadow" = "rgba(1a1a1aee)";
+      };
+
+      animations = {
+        enabled = "true";
+
+        # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+
+        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+
+        animation = [
+          "windows, 1, 7, myBezier"
+          "windowsOut, 1, 7, default, popin 80%"
+          "border, 1, 10, default"
+          "borderangle, 1, 8, default"
+          "fade, 1, 7, default"
+          "workspaces, 1, 6, default"
+        ];
+      };
+
+      dwindle = {
+        # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
+        pseudotile = "true"; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+        preserve_split = "true"; # you probably want this
+      };
+
+      master = {
+        # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+        new_is_master = "true";
+      };
+
+      gestures = {
+        # See https://wiki.hyprland.org/Configuring/Variables/ for more
+        workspace_swipe = "false";
+      };
+
+      misc = {
+        # See https://wiki.hyprland.org/Configuring/Variables/ for more
+        force_default_wallpaper = "-1"; # Set to 0 to disable the anime mascot wallpapers
+      };
+
+      windowrule = [
+        "float,^(lutris)$"
+        "float,^(virt-manager)$"
+        "float,title:^(Friends List)$"
+      ];
+
+      windowrulev2 = [
+        "tile,class:Google-chrome,title:^(Inbox .*)$"
+      ];
+
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
+
+      bind = [
+        "$mod, Return, exec, kitty"
+        "$mod, C, killactive,"
+        "$mod, Q, exit"
+        "$mod, L, exec, swaylock"
+        "$mod, E, exec, thunar"
+        "$mod, V, togglefloating,"
+        "$mod, R, exec, wofi --show drun"
+        "$mod, P, pseudo, # dwindle"
+        "$mod, J, togglesplit, # dwindle"
+        "$mod SHIFT, F, fullscreen"
+        "$mod, left, movefocus, l"
+        "$mod, right, movefocus, r"
+        "$mod, up, movefocus, u"
+        "$mod, down, movefocus, d"
+        "$mod, S, togglespecialworkspace, magic"
+        "$mod SHIFT, S, movetoworkspace, special:magic"
+        "$mod, mouse_down, workspace, e+1"
+        "$mod, mouse_up, workspace, e-1"
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+          builtins.concatLists (builtins.genList (
+              x: let
+                ws = let
+                  c = (x + 1) / 10;
+                in
+                  builtins.toString (x + 1 - (c * 10));
+              in [
+                "$mod, ${ws}, workspace, ${toString (x + 1)}"
+                "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+              ]
+            )
+            10)
+        );
+
+      exec-once = [
+        "${pkgs.waybar}/bin/waybar"
+        "${pkgs.blueman}/bin/blueman-applet"
+        "${pkgs.networkmanagerapplet}/bin/nm-applet"
+        ];
+    };
+  };
 
   programs.waybar = {
     enable = true;
@@ -351,168 +458,6 @@
     '';
   };
 
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      indicator = true;
-      clock = true;
-      screenshots = true;
-      effect-greyscale = true;
-      effect-blur="4x4";
-      effect-vignette="0:1";
-      indicator-radius=200;
-      indicator-thickness=50;
-    };
-    package = pkgs.swaylock-effects;
-  };
-
-  wayland.windowManager.hyprland.enable = true;
-  wayland.windowManager.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-  wayland.windowManager.hyprland.plugins = [
-    inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
-  ];
-  wayland.windowManager.hyprland.settings = {
-    "$mod" = "SUPER";
-    monitor = ",preferred,auto,1.0";
-    "plugin:borders-plus-plus" = {
-      add_borders = 1;
-      "col.border_1" = "rgb(ffffff)";
-      "col.border_2" = "rgb(2222ff)";
-
-      border_size_1 = 2;
-      border_size_2 = -2;
-
-      natural_rounding = "yes";
-    };
-
-    input = {
-      kb_layout = "us";
-      follow_mouse = "1";
-      touchpad = {
-        natural_scroll = "true";
-        "tap-to-click" = "false";
-      };
-      sensitivity = "0"; # -1.0 - 1.0, 0 means no modification.
-    };
-
-    general = {
-      gaps_in = "5";
-      gaps_out = "20";
-      border_size = "2";
-      "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-      "col.inactive_border" = "rgba(595959aa)";
-
-      layout = "dwindle";
-
-      allow_tearing = "false";
-    };
-
-    decoration = {
-    # See https://wiki.hyprland.org/Configuring/Variables/ for more
-
-      rounding = "10";
-
-      blur = {
-        enabled = "true";
-        size = "3";
-        passes = "1";
-        vibrancy = "0.1696";
-      };
-
-      drop_shadow = "true";
-      shadow_range = "4";
-      shadow_render_power = "3";
-      "col.shadow" = "rgba(1a1a1aee)";
-    };
-
-    animations = {
-      enabled = "true";
-
-      # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-
-      bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-
-      animation = [
-        "windows, 1, 7, myBezier"
-        "windowsOut, 1, 7, default, popin 80%"
-        "border, 1, 10, default"
-        "borderangle, 1, 8, default"
-        "fade, 1, 7, default"
-        "workspaces, 1, 6, default"
-      ];
-    };
-
-    dwindle = {
-      # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-      pseudotile = "true"; # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-      preserve_split = "true"; # you probably want this
-    };
-
-    master = {
-      # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-      new_is_master = "true";
-    };
-
-    gestures = {
-      # See https://wiki.hyprland.org/Configuring/Variables/ for more
-      workspace_swipe = "false";
-    };
-
-    misc = {
-      # See https://wiki.hyprland.org/Configuring/Variables/ for more
-      force_default_wallpaper = "-1"; # Set to 0 to disable the anime mascot wallpapers
-    };
-
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-
-    bind = [
-      "$mod, Return, exec, kitty"
-      "$mod, C, killactive,"
-      "$mod, Q, exit"
-      "$mod, L, exec, swaylock"
-      "$mod, E, exec, thunar"
-      "$mod, V, togglefloating,"
-      "$mod, R, exec, wofi --show drun"
-      "$mod, P, pseudo, # dwindle"
-      "$mod, J, togglesplit, # dwindle"
-      "$mod SHIFT, F, fullscreen"
-      "$mod, left, movefocus, l"
-      "$mod, right, movefocus, r"
-      "$mod, up, movefocus, u"
-      "$mod, down, movefocus, d"
-      "$mod, S, togglespecialworkspace, magic"
-      "$mod SHIFT, S, movetoworkspace, special:magic"
-      "$mod, mouse_down, workspace, e+1"
-      "$mod, mouse_up, workspace, e-1"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-        builtins.concatLists (builtins.genList (
-            x: let
-              ws = let
-                c = (x + 1) / 10;
-              in
-                builtins.toString (x + 1 - (c * 10));
-            in [
-              "$mod, ${ws}, workspace, ${toString (x + 1)}"
-              "$mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
-            ]
-          )
-          10)
-      );
-
-    exec-once = [
-      "${pkgs.waybar}/bin/waybar"
-      "${pkgs.blueman}/bin/blueman-applet"
-      # "${pkgs.dunst}/bin/dunst"
-      "${pkgs.networkmanagerapplet}/bin/nm-applet"
-      ];
-  };
-
   programs.wofi = {
     enable = true;
     settings = {
@@ -612,16 +557,74 @@
     '';
   };
 
-  programs.tmux = {
+  programs.swaylock = {
     enable = true;
-    mouse = true;
-    shortcut = "Space";
-    baseIndex = 1;
-    plugins = with pkgs.tmuxPlugins; [
-      sensible
-      vim-tmux-navigator
-      yank
-    ];
+    settings = {
+      indicator = true;
+      clock = true;
+      screenshots = true;
+      effect-greyscale = true;
+      effect-blur="4x4";
+      effect-vignette="0:1";
+      indicator-radius=200;
+      indicator-thickness=50;
+    };
+    package = pkgs.swaylock-effects;
+  };
+
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        frame_width = 1;
+        frame_color = "#000000";
+        font = "Arimo Nerd Font Propo 10";
+        markup = "yes";
+        format = "<big><b>%s</b></big> %p\n%b";
+        sort = "yes";
+        indicate_hidden = "yes";
+        alignment = "left";
+        show_age_threshold = 60;
+        word_wrap = "no";
+        ignore_newline = "no";
+        height = 256;
+        width = "(384, 512)";
+        offset = "32x32";
+        shrink = "no";
+        transparency = 15;
+        corner_radius = 7;
+        idle_threshold = 120;
+        monitor = 0;
+        follow = "keyboard";
+        sticky_history = "yes";
+        history_length = 20;
+        show_indicators = "yes";
+        line_height = 0;
+        padding = 8;
+        horizontal_padding = 10;
+        icon_position = "left";
+        icon_path = "${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/actions/:${pkgs.tela-circle-icon-theme}/share/icons/Tela-circle/16/panel/:";
+        max_icon_size = 128;
+      };
+      urgency_low = {
+        background = "#000000";
+        foreground = "#808080";
+        timeout = 15;
+      };
+      urgency_normal = {
+        background = "#141003";
+        foreground = "#e1c564";
+        timeout = 15;
+        icon = "bell";
+      };
+      urgency_critical = {
+        frame_color = "#ff0000";
+        background = "#fff8dc";
+        foreground = "#ff0000";
+        timeout = 0;
+        icon = "firewall-applet-panic";
+      };
+    };
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage plain files is through 'home.file'.
