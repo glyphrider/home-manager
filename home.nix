@@ -250,6 +250,7 @@
         "float,^(lutris)$"
         "float,^(virt-manager)$"
         "float,title:^(Friends List)$"
+        "float,^(pavucontrol)$"
       ];
 
       windowrulev2 = [
