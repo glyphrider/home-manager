@@ -173,6 +173,7 @@
         touchpad = {
           natural_scroll = "true";
           "tap-to-click" = "false";
+          "disable_while_typing" = "true";
         };
         sensitivity = "0"; # -1.0 - 1.0, 0 means no modification.
       };
