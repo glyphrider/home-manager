@@ -94,6 +94,17 @@
     ];
   };
 
+  programs.vim = {
+    enable = true;
+    settings = {
+      tabstop = 2;
+      shiftwidth = 2;
+      expandtab = true;
+      number = true;
+      relativenumber = true;
+    };
+  };
+
   home.packages = with pkgs; [
     asdf-vm
     awscli2
