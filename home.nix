@@ -661,6 +661,9 @@
     "${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update"
     '';
 
+  home.activation.ssh-dir = ''
+    umask 077 && mkdir -pv ~/.ssh
+    '';
   home.sessionVariables = {
     EDITOR = "vim";
   };
