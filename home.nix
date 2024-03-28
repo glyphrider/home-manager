@@ -342,6 +342,7 @@
           "tray"
           "battery"
           "temperature"
+          "pulseaudio"
           "clock"
       ];
   
@@ -371,7 +372,7 @@
   
       battery = {
         format = "{icon}";
-	format-icons = [ "" "" "" "" "" ];
+	      format-icons = [ "" "" "" "" "" ];
       };
   
       temperature = {
@@ -380,6 +381,11 @@
           format-alt-click = "click-right";
           format-alt = "{icon} {temperature}°C";
           format-icons = [ "" "" "" "" "" ];
+      };
+      
+      pulseaudio = {
+        format-icons = [ "󰕿" "󰖀" "󰕾" ];
+        format = "{icon} {volume}%";
       };
   
       clock = {
