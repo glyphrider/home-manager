@@ -33,9 +33,6 @@
       { name = "powerlevel10k"; src = pkgs.zsh-powerlevel10k; file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme"; }
       { name = "fzf-tab"; src = pkgs.zsh-fzf-tab; file = "share/fzf-tab/fzf-tab.zsh.theme"; }
     ];
-    shellAliases = {
-      tm = "tmux new-session -A -s main";
-    };
     initExtra = ''
       source ~/.p10k.zsh
       '';
@@ -144,7 +141,6 @@
     rebar3 # build tool for erlang; needed for erlang-ls in neovim
     rustup # used to install a version of rust
     signify # verify package signatures, like for GrapheneOS
-    slack
     slurp
     steam
     swappy
