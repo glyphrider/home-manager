@@ -109,17 +109,14 @@
   };
 
   home.packages = with pkgs; [
-    asdf-vm
     awscli2
     bitwarden
     blueman
-    brave
     cmatrix
     cmus
     cowsay
     discord
     dunst
-    elixir
     erlang
     ffmpeg
     firefox
@@ -144,6 +141,7 @@
     rebar3 # build tool for erlang; needed for erlang-ls in neovim
     rustup # used to install a version of rust
     signify # verify package signatures, like for GrapheneOS
+    slack
     slurp
     steam
     swappy
