@@ -684,6 +684,7 @@
     '';
   home.sessionVariables = {
     EDITOR = "vim";
+    VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
   };
 
   programs.home-manager.enable = true;
