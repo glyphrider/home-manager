@@ -35,6 +35,7 @@
     ];
     shellAliases = {
       tm = "tmux new-session -A -s main";
+      emacs = "emacs -nw";
     };
     initExtra = ''
       source ~/.p10k.zsh
@@ -145,6 +146,7 @@
     slurp
     steam
     swappy
+    swww
     tela-circle-icon-theme 
     tor
     unzip # needed for the elixir-ls in neovim
@@ -170,11 +172,9 @@
 
       "plugin:borders-plus-plus" = {
         add_borders = 1;
-        "col.border_1" = "rgb(ffffff)";
-        "col.border_2" = "rgb(2222ff)";
+        "col.border_1" = "rgb(00ff00)";
 
-        border_size_1 = 2;
-        border_size_2 = -2;
+        border_size_1 = -1;
 
         natural_rounding = "yes";
       };
@@ -193,9 +193,9 @@
       general = {
         gaps_in = "5";
         gaps_out = "20";
-        border_size = "2";
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        border_size = "3";
+        "col.active_border" = "rgba(ffffffd0) rgba(ffffffa0) 45deg";
+        "col.inactive_border" = "rgba(ffffff00)";
 
         layout = "dwindle";
 
@@ -315,6 +315,7 @@
         "${pkgs.waybar}/bin/waybar"
         "${pkgs.blueman}/bin/blueman-applet"
         "${pkgs.networkmanagerapplet}/bin/nm-applet"
+        "${pkgs.swww}/bin/swww init"
         ];
     };
   };
@@ -408,16 +409,16 @@
       window#waybar {
         padding: 2px;
         background: rgba(0,0,0,0.0);
-        color: #f6f7fc;
+        color: #00ff00;
         margin: 2px 5px;
-        border-radius: 10;
+        border-radius: 5px;
         padding: 1px 5px;
       }
       
       tooltip {
           background: #1e1e2e;
           opacity: 0.8;
-          border-radius: 10px;
+          border-radius: 5px;
           border-width: 2px;
           border-style: solid;
           border-color: #11111b;
@@ -429,20 +430,20 @@
       
       #workspaces button {
           padding: 1px 5px;
-          color: #f6f7fc;
+          color: #00ff00;
           margin: 2px 5px;
       }
       
       #workspaces button.active {
           color: #000000;
-          background: #f6f7fc;
+          background: #00ff00;
           border-radius: 10px;
       }
       
       #workspaces button:hover {
-          background: #11111b;
-          color: #cdd6f4;
-          border-radius: 10px;
+          background: #40ff40;
+          color: #00d000;
+          border-radius: 5px;
       }
       
       #window,
@@ -457,11 +458,11 @@
           padding: 0px 8px;
           margin: 0px 3px;
           border: 0px;
-          border-radius: 10px;
+          border-radius: 5px;
       }
       
       #temperature.critical {
-          color: #e92d4d;
+          color: #ff0000;
       }
       
       #workspaces {
@@ -471,7 +472,7 @@
       
       #window {
           background: rgba(0,0,0,0.2);
-          border-radius: 10px;
+          border-radius: 5px;
           margin-left: 0px;
           margin-right: 0px;
       }
@@ -585,7 +586,7 @@
       screenshots = true;
       effect-greyscale = true;
       effect-blur="4x4";
-      effect-vignette="0:1";
+      effect-vignette="0:0.5";
       indicator-radius=200;
       indicator-thickness=50;
     };
@@ -664,6 +665,9 @@
       font_family FiraCode Nerd Font
       shell env SHELL=${pkgs.zsh}/bin/zsh ${pkgs.zsh}/bin/zsh
       '';
+    "Pictures/the-matrix-resurrection-digital-rain-city-street.jpeg".source = builtins.fetchurl { url = "https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/05/the-matrix-resurrection-digital-rain-city-street.jpeg"; sha256 = "fbf0647e8f009e8d4b62974836ee2bde65b65aeafa1725db332ce4924916dba8"; };
+    ".p10k.zsh".source = ./p10k.zsh;
+    ".newsboat/urls".source = ./newsboat-urls;
   };
 
   home.activation.nvchad = ''
