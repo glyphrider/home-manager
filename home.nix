@@ -22,6 +22,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    # enableAutosuggestions = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     history.size = 10000;
@@ -50,8 +51,8 @@
 
   programs.eza = {
     enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
+    # enableZshIntegration = true;
+    # enableBashIntegration = false; # not in 23.11; move to unstable or wait until 24.05
     git = true;
     icons = true;
   };
@@ -133,7 +134,6 @@
     lollypop
     lutris
     neofetch
-    neovim
     nerdfonts
     networkmanagerapplet
     newsboat
@@ -670,14 +670,6 @@
     ".newsboat/urls".source = ./newsboat-urls;
   };
 
-  home.activation.nvchad = ''
-    if [ ! -d ~/.config/nvim ]; then
-      echo '> installing nvchad for neovim'
-      "${pkgs.git}/bin/git" clone --depth=1 https://github.com/nvchad/nvchad.git ~/.config/nvim
-    else
-      echo '> nvim config exists; if you need to, rm -rf ~/.config/nvim and rerun home-manager switch'
-    fi
-    '';
   home.activation.xdg = ''
     echo '> using xdg-user-dirs to ensure "standard" folders exist in home'
     "${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update"
