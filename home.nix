@@ -161,23 +161,24 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    # package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     plugins = [
-      inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+      # inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+      # borders-plus-plus
     ];
     settings = {
       "$mod" = "SUPER";
 
       monitor = ",preferred,auto,1.0";
 
-      "plugin:borders-plus-plus" = {
-        add_borders = 1;
-        "col.border_1" = "rgb(00ff00)";
+      # "plugin:borders-plus-plus" = {
+        # add_borders = 1;
+        # "col.border_1" = "rgb(00ff00)";
 
-        border_size_1 = -1;
+        # border_size_1 = -1;
 
-        natural_rounding = "yes";
-      };
+        # natural_rounding = "yes";
+      # };
 
       input = {
         kb_layout = "us";
